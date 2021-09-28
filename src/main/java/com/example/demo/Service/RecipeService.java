@@ -1,13 +1,12 @@
 package com.example.demo.Service;
 
-import com.example.demo.RecipeRepository;
 import com.example.demo.exceptions.RecipeNotFoundException;
 import com.example.demo.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class RecipeService {
@@ -15,7 +14,7 @@ public class RecipeService {
     @Autowired
     private RecipeRepository _repository;
 
-    public Iterable<Recipe> getAll() {
+    public List<Recipe> getAll() {
         return _repository.findAll();
     }
 
@@ -36,8 +35,7 @@ public class RecipeService {
     }
 
     public Recipe getRecipe(Long id) {
-       Recipe recipe = _repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
-        return recipe;
+      return _repository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id));
     }
 
     public void deleteRecipe(Long id) {

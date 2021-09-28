@@ -1,27 +1,24 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "Recipes")
-public class Recipe {
-
-    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id")
+public class RecipeDTO {
+    @Id
     private Long id;
 
-    @Column(name = "creation_date")
     private LocalDateTime creation_date;
 
-    @Column(name = "is_vegetarian", columnDefinition = "BOOLEAN")
+    @NotNull(message = "Is vegetarian is required")
     private boolean is_vegetarian;
 
-    @Column(name = "consumer_amount")
+    @NotNull(message = "Consumer amount is required")
     private int consumer_amount;
 
-    @Column(name = "cooking_instructions")
+    @NotBlank(message = "Cooking instructions are mandatory")
     private String cooking_instructions;
 
     @OneToMany(mappedBy="recipe")

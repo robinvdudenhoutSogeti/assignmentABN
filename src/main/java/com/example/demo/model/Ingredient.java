@@ -1,18 +1,33 @@
 package com.example.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "Ingredients")
 public class Ingredient {
 
-    private @Id @GeneratedValue Long id;
-    private String name;
-    private String amount;
-    private int recipe_id;
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    public long getId(){ return this.id; }
+    @Column(name = "name")
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name can not be empty")
+    private String name;
+
+    @Column(name = "amount")
+    @NotNull(message = "Amount is required")
+    @NotEmpty(message = "Amount can not be empty")
+    private String amount;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="recipe_id", nullable=false)
+    private Recipe recipe;
 
     public void setName(String name){ this.name = name; }
     public String getName(){ return this.name; }
@@ -20,6 +35,6 @@ public class Ingredient {
     public void setAmount(String amount){ this.amount = amount; }
     public String getAmount(){ return this.amount; }
 
-    public void setRecipe_id(int recipe_id){ this.recipe_id = recipe_id; }
-    public int getRecipe_id(){ return this.recipe_id; }
+    public void setRecipe(Recipe recipe){ this.recipe = recipe; }
+    public Recipe getRecipe(){ return this.recipe; }
 }
