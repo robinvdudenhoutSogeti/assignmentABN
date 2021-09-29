@@ -27,6 +27,9 @@ public class Recipe {
     @OneToMany(mappedBy="recipe")
     private List<Ingredient> ingredientsList;
 
+    public long getId(){ return this.id; }
+    public void setId(long id){ this.id = id; }
+
     public void setCreation_date(LocalDateTime date){ this.creation_date = date; }
     public LocalDateTime getCreation_date(){ return this.creation_date; }
 

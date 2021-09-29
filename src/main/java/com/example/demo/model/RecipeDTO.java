@@ -24,6 +24,8 @@ public class RecipeDTO {
     @OneToMany(mappedBy="recipe")
     private List<Ingredient> ingredientsList;
 
+    public void setId(long id){ this.id = id; }
+
     public void setCreation_date(LocalDateTime date){ this.creation_date = date; }
     public LocalDateTime getCreation_date(){ return this.creation_date; }
 
@@ -38,4 +40,5 @@ public class RecipeDTO {
 
     public void setIngredientsList(List<Ingredient> ingredients){ this.ingredientsList = ingredients; }
     public List<Ingredient> getIngredientsList(){ return this.ingredientsList; }
+
 }

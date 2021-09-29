@@ -48,21 +48,20 @@ public class RecipeController {
     )
     @GetMapping("/recipes/{id}")
     @ResponseBody
-    Recipe getRecipe(@PathVariable Long id) {
+    public Recipe getRecipe(@PathVariable Long id) {
         return _service.getRecipe(id);
     }
 
     @PostMapping("/recipes")
     @ResponseStatus(HttpStatus.CREATED)
-    RecipeDTO newRecipe(@Valid @RequestBody RecipeDTO newRecipe) {
+    public RecipeDTO newRecipe(@Valid @RequestBody RecipeDTO newRecipe) {
         Recipe recipe = convertToEntity(newRecipe);
         _service.saveRecipe(recipe);
         return newRecipe;
     }
 
-
     @PutMapping("/recipes/{id}")
-    ResponseEntity updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable Long id) {
+    public ResponseEntity updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable Long id) {
         Recipe oldRecipe = _service.getRecipe(id);
         if (oldRecipe != null) {
             return new ResponseEntity<>(_service.update_Recipe(convertToEntity(updatedRecipe), id), HttpStatus.OK);
@@ -73,7 +72,7 @@ public class RecipeController {
     }
 
     @DeleteMapping("/recipes/{id}")
-    ResponseEntity deleteRecipe(@PathVariable Long id) {
+    public ResponseEntity deleteRecipe(@PathVariable Long id) {
         Recipe oldRecipe = _service.getRecipe(id);
         if (oldRecipe != null) {
             _service.deleteRecipe(id);
