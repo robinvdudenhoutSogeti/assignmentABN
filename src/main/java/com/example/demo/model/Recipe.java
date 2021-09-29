@@ -13,16 +13,16 @@ public class Recipe {
     private Long id;
 
     @Column(name = "creation_date")
-    private LocalDateTime creation_date;
+    private LocalDateTime creationDate;
 
     @Column(name = "is_vegetarian", columnDefinition = "BOOLEAN")
-    private boolean is_vegetarian;
+    private boolean isVegetarian;
 
     @Column(name = "consumer_amount")
-    private int consumer_amount;
+    private int consumerAmount;
 
     @Column(name = "cooking_instructions")
-    private String cooking_instructions;
+    private String cookingInstructions;
 
     @OneToMany(mappedBy="recipe")
     private List<Ingredient> ingredientsList;
@@ -30,17 +30,17 @@ public class Recipe {
     public long getId(){ return this.id; }
     public void setId(long id){ this.id = id; }
 
-    public void setCreation_date(LocalDateTime date){ this.creation_date = date; }
-    public LocalDateTime getCreation_date(){ return this.creation_date; }
+    public void setCreationDate(LocalDateTime date){ this.creationDate = date; }
+    public LocalDateTime getCreationDate(){ return this.creationDate; }
 
-    public void setIsVegetarian(boolean isVega){ this.is_vegetarian = isVega; }
-    public boolean getIsVegetarian(){ return this.is_vegetarian; }
+    public void setIsVegetarian(boolean isVega){ this.isVegetarian = isVega; }
+    public boolean getIsVegetarian(){ return this.isVegetarian; }
 
-    public void setConsumer_amount(int consumer_amount){ this.consumer_amount = consumer_amount; }
-    public int getConsumer_amount(){ return this.consumer_amount; }
+    public void setConsumerAmount(int consumerAmount){ this.consumerAmount = consumerAmount; }
+    public int getConsumerAmount(){ return this.consumerAmount; }
 
-    public void setCooking_instructions(String instructions){ this.cooking_instructions = instructions; }
-    public String getCooking_instructions(){ return this.cooking_instructions; }
+    public void setCookingInstructions(String instructions){ this.cookingInstructions = instructions; }
+    public String getCookingInstructions(){ return this.cookingInstructions; }
 
     public void setIngredientsList(List<Ingredient> ingredients){ this.ingredientsList = ingredients; }
     public List<Ingredient> getIngredientsList(){ return this.ingredientsList; }

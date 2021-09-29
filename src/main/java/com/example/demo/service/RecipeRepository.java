@@ -1,4 +1,4 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import com.example.demo.model.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;

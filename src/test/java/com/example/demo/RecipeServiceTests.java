@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.Service.RecipeRepository;
-import com.example.demo.Service.RecipeService;
+import com.example.demo.service.RecipeRepository;
+import com.example.demo.service.RecipeService;
 import com.example.demo.model.Recipe;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -35,9 +34,9 @@ public class RecipeServiceTests {
         for(int i =0; i< 5; i++){
             Recipe recipe = new Recipe();
             recipe.setIsVegetarian(false);
-            recipe.setCooking_instructions("cooking");
-            recipe.setConsumer_amount(i + 1);
-            recipe.setCreation_date(LocalDateTime.now());
+            recipe.setCookingInstructions("cooking");
+            recipe.setConsumerAmount(i + 1);
+            recipe.setCreationDate(LocalDateTime.now());
             recipes.add(recipe);
         }
         Mockito.lenient().when(mockRepository.findAll()).thenReturn(recipes);
@@ -66,7 +65,7 @@ public class RecipeServiceTests {
 
         //then
         Assertions.assertNotNull(recipe);
-        Assertions.assertEquals(recipe.getConsumer_amount(), 1);
+        Assertions.assertEquals(recipe.getConsumerAmount(), 1);
     }
 
     @Test
@@ -89,19 +88,19 @@ public class RecipeServiceTests {
 
         //then
         Assertions.assertNotNull(savedRecipe);
-        Assertions.assertEquals(savedRecipe.getConsumer_amount(), recipe.getConsumer_amount());
+        Assertions.assertEquals(savedRecipe.getConsumerAmount(), recipe.getConsumerAmount());
     }
 
     @Test
     public void UpdateRecipeShouldBeUpdated(){
         //given
         Recipe recipe = service.getRecipe(1L);
-        recipe.setCooking_instructions("This is the updated recipe");
+        recipe.setCookingInstructions("This is the updated recipe");
         //when
-        Recipe updatedRecipe = service.update_Recipe(recipe, 1L);
+        Recipe updatedRecipe = service.updateRecipe(recipe, 1L);
 
         //then
         Assertions.assertNotNull(updatedRecipe);
-        Assertions.assertEquals(updatedRecipe.getCooking_instructions(), recipe.getCooking_instructions());
+        Assertions.assertEquals(updatedRecipe.getCookingInstructions(), recipe.getCookingInstructions());
     }
 }
