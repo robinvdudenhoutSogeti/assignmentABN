@@ -52,6 +52,7 @@ public class RecipeService {
     }
 
     public void deleteRecipe(Long id) {
+        if(getRecipe(id) == null) throw new RecipeNotFoundException(id);
         repository.deleteById(id);
     }
 }
