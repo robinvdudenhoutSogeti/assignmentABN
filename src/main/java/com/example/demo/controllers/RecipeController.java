@@ -4,6 +4,7 @@ import com.example.demo.model.Recipe;
 import com.example.demo.model.RecipeDTO;
 import com.example.demo.service.RecipeService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +45,10 @@ public class RecipeController {
      * @param id the id of the Recipe to identify it within the database
      * @return RecipeDTO with the same id as the param
      */
-    @ApiOperation(value = "View a a recipe",response = Recipe.class)
+    @ApiOperation(value = "View a a recipe",response = RecipeDTO.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved the recipe"),
-            @ApiResponse(code = 404, message = "The recipe you were trying to reach is not found")
+            @ApiResponse(code = 404, message = "The recipe you were trying to get is not found")
     }
     )
     @GetMapping("/recipes/{id}")
@@ -61,9 +62,14 @@ public class RecipeController {
      * @param newRecipe is the new Recipe which is going to be added to the database
      * @return the newly added recipe as a DTO
      */
-    @PostMapping("/recipes")
+    @ApiOperation(value = "Create a a recipe",response = RecipeDTO.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully created the recipe"),
+            @ApiResponse(code = 404, message = "The recipe you were trying to get is not found")
+    })
     @ResponseStatus(HttpStatus.CREATED)
-    public RecipeDTO newRecipe(@Valid @RequestBody RecipeDTO newRecipe) {
+    @PostMapping("/recipes")
+    public @ResponseBody RecipeDTO newRecipe(@Valid @RequestBody RecipeDTO newRecipe) {
         Recipe recipe = convertToEntity(newRecipe);
         service.saveRecipe(recipe);
         return newRecipe;
@@ -75,7 +81,11 @@ public class RecipeController {
      * @param id is the id of the Recipe which needs to be updated
      * @return a Response depending on if the Recipe exist or not
      */
-
+    @ApiOperation(value = "Update a a recipe",response = RecipeDTO.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully updated the recipe"),
+            @ApiResponse(code = 404, message = "The recipe you were trying to get is not found")
+    })
     @PutMapping("/recipes/{id}")
     public ResponseEntity<Object> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable Long id) {
         Recipe oldRecipe = service.getRecipe(id);
@@ -92,6 +102,11 @@ public class RecipeController {
      * @param id is the id of the recipe that will be deleted
      * @return a response based on if the recipe is deleted or not
      */
+    @ApiOperation(value = "Delete a a recipe")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully deleted the recipe"),
+            @ApiResponse(code = 404, message = "The recipe you were trying to get is not found")
+    })
     @DeleteMapping("/recipes/{id}")
     public ResponseEntity<Object> deleteRecipe(@PathVariable Long id) {
         Recipe oldRecipe = service.getRecipe(id);

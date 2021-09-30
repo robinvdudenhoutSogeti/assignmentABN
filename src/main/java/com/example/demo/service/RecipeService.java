@@ -6,6 +6,7 @@ import com.example.demo.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -58,9 +59,9 @@ public class RecipeService {
         try {
             repository.save(recipe);
         } catch(DuplicateKeyException e) {
-            throw new DatabaseException("Recipe already exist");
+            throw new DatabaseException("Recipe already exist", HttpStatus.CONFLICT);
         } catch(DataAccessException e) {
-            throw new DatabaseException("Database unreachable");
+            throw new DatabaseException("Database unreachable", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

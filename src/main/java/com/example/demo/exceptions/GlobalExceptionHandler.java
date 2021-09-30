@@ -4,14 +4,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = RecipeNotFoundException.class)
@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = DatabaseException.class)
     public ResponseEntity<Object> exception(DatabaseException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_GATEWAY);
+        return new ResponseEntity<>(ex.getMessage(), ex.getStatusCode());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
