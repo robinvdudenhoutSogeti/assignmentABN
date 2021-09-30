@@ -7,6 +7,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,4 +39,9 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+    public ResponseEntity<Object> handleValidationExceptions(
+            HttpClientErrorException.Unauthorized ex) {
+        return new ResponseEntity<>("You don't have authorization to access the data", HttpStatus.UNAUTHORIZED);
+    }
 }

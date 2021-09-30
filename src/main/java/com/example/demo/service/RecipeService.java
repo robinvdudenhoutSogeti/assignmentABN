@@ -61,7 +61,7 @@ public class RecipeService {
         } catch(DuplicateKeyException e) {
             throw new DatabaseException("Recipe already exist", HttpStatus.CONFLICT);
         } catch(DataAccessException e) {
-            throw new DatabaseException("Database unreachable", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new DatabaseException("Something went wrong fetching the data", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
