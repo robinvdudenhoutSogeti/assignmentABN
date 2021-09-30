@@ -24,6 +24,10 @@ public class RecipeController {
     @Autowired
     private RecipeService service;
 
+    /**
+     * Returns a list of all the recipes known to the database
+     * @return a list of all RecipeDTO
+     */
     @ApiOperation(value = "View a list of all available recipes",response = Iterable.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved the list"),})
@@ -35,6 +39,11 @@ public class RecipeController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the recipe specified by id param
+     * @param id the id of the Recipe to identify it within the database
+     * @return RecipeDTO with the same id as the param
+     */
     @ApiOperation(value = "View a a recipe",response = Recipe.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved the recipe"),
@@ -43,10 +52,15 @@ public class RecipeController {
     )
     @GetMapping("/recipes/{id}")
     @ResponseBody
-    public Recipe getRecipe(@PathVariable Long id) {
-        return service.getRecipe(id);
+    public RecipeDTO getRecipe(@PathVariable Long id) {
+        return convertToDto(service.getRecipe(id));
     }
 
+    /**
+     * Creates a new Recipe in the database based of the DTO given in the params
+     * @param newRecipe is the new Recipe which is going to be added to the database
+     * @return the newly added recipe as a DTO
+     */
     @PostMapping("/recipes")
     @ResponseStatus(HttpStatus.CREATED)
     public RecipeDTO newRecipe(@Valid @RequestBody RecipeDTO newRecipe) {
@@ -54,6 +68,13 @@ public class RecipeController {
         service.saveRecipe(recipe);
         return newRecipe;
     }
+
+    /**
+     * Updates the recipe based on the DTO given in the params
+     * @param updatedRecipe is the Recipe which needs to be updated
+     * @param id is the id of the Recipe which needs to be updated
+     * @return a Response depending on if the Recipe exist or not
+     */
 
     @PutMapping("/recipes/{id}")
     public ResponseEntity<Object> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable Long id) {
@@ -66,6 +87,11 @@ public class RecipeController {
 
     }
 
+    /**
+     * Deletes the recipe from the database
+     * @param id is the id of the recipe that will be deleted
+     * @return a response based on if the recipe is deleted or not
+     */
     @DeleteMapping("/recipes/{id}")
     public ResponseEntity<Object> deleteRecipe(@PathVariable Long id) {
         Recipe oldRecipe = service.getRecipe(id);
