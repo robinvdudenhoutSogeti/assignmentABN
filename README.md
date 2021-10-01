@@ -1,11 +1,11 @@
 # Recipe Application
 
-###Description project
+### Description project
 This is a REST API in which recipes can be to shown, created, updated and deleted.
 
 Besides, being able to handle the Happy flows the application also has custom exceptions handlers.
 
-###Technologies 
+### Technologies 
 Technologies that I have used were: Java 11, Spring Boot, Jupiter, Mockito,
 ModelMapper, Swagger, SwaggerUI and MySQLConnector.
 
