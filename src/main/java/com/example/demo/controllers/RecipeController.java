@@ -4,7 +4,6 @@ import com.example.demo.model.Recipe;
 import com.example.demo.model.RecipeDTO;
 import com.example.demo.service.RecipeService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
