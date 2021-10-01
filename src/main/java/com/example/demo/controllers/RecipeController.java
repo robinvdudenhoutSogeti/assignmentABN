@@ -109,14 +109,8 @@ public class RecipeController {
     })
     @DeleteMapping("/recipes/{id}")
     public ResponseEntity<Object> deleteRecipe(@PathVariable Long id) {
-        Recipe oldRecipe = service.getRecipe(id);
-        if (oldRecipe != null) {
-            service.deleteRecipe(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+        service.deleteRecipe(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

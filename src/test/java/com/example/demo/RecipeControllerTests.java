@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.exceptions.RecipeNotFoundException;
 import com.example.demo.service.RecipeService;
 import com.example.demo.model.Recipe;
 import com.example.demo.model.RecipeDTO;
@@ -84,20 +85,16 @@ class RecipeControllerTests {
     }
 
     @Test
-    void DeleteNonExistingRecipeShouldGive404() throws Exception {
+    void CreateRecipeShouldGive201() throws Exception {
         this.mvc.perform(MockMvcRequestBuilders
-                        .delete("http://localhost:8080/recipes/11")
-                        .contentType("application/json"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void CreateNonValidRecipeShouldGive400() throws Exception {
-       // this.mvc.perform(MockMvcRequestBuilders
-                //        .post("http://localhost:8080/recipes")
-           //             .contentType("application/json")
-           //             .content({"consumer_amount": "5", }))
-           //     .andExpect(status().isBadRequest());
+                        .post("http://localhost:8080/recipes")
+                        .contentType("application/json")
+                        .content("{\n" +
+                                "  \"isVegetarian\": 1,\n" +
+                                "  \"consumerAmount\": 5,\n" +
+                                "  \"cookingInstructions\": \"cooking intructions\"\n" +
+                                "}"))
+                .andExpect(status().isCreated());
     }
 
 }

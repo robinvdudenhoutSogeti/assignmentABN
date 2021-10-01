@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.exceptions.RecipeNotFoundException;
 import com.example.demo.service.RecipeRepository;
 import com.example.demo.service.RecipeService;
 import com.example.demo.model.Recipe;
@@ -12,15 +13,18 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class RecipeServiceTests {
+class RecipeServiceTests {
 
     @Mock
     RecipeRepository mockRepository;
@@ -44,7 +48,7 @@ public class RecipeServiceTests {
     }
 
     @Test
-    public void allRecipesShouldBe5(){
+    void allRecipesShouldBe5(){
         //given
 
         //when
@@ -57,7 +61,7 @@ public class RecipeServiceTests {
     }
 
     @Test
-    public void getRecipeId1ShouldReturnFirstRecipe(){
+    void getRecipeId1ShouldReturnFirstRecipe(){
         //given
 
         //when
@@ -69,7 +73,7 @@ public class RecipeServiceTests {
     }
 
     @Test
-    public void RemoveRecipeShouldRemoveRecipe(){
+    void RemoveRecipeShouldRemoveRecipe(){
         //given
         Recipe recipe = mockRepository.findById(1L).get();
         //when
@@ -80,7 +84,7 @@ public class RecipeServiceTests {
     }
 
     @Test
-    public void AddNewRecipeShouldAddRecipe(){
+    void AddNewRecipeShouldAddRecipe(){
         //given
         Recipe recipe = mockRepository.findById(1L).get();
         //when
@@ -92,7 +96,7 @@ public class RecipeServiceTests {
     }
 
     @Test
-    public void UpdateRecipeShouldBeUpdated(){
+    void UpdateRecipeShouldBeUpdated(){
         //given
         Recipe recipe = service.getRecipe(1L);
         recipe.setCookingInstructions("This is the updated recipe");
@@ -102,5 +106,11 @@ public class RecipeServiceTests {
         //then
         Assertions.assertNotNull(updatedRecipe);
         Assertions.assertEquals(updatedRecipe.getCookingInstructions(), recipe.getCookingInstructions());
+    }
+
+    @Test
+    void DeleteNonExistingRecipeShouldGiveRecipeNotFoundException() {
+        Assertions.assertThrows(RecipeNotFoundException.class,
+                ()->{service.deleteRecipe(3L);} );
     }
 }
