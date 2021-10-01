@@ -4,6 +4,7 @@ import com.example.demo.exceptions.RecipeNotFoundException;
 import com.example.demo.service.RecipeService;
 import com.example.demo.model.Recipe;
 import com.example.demo.model.RecipeDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.Base64Utils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,7 +58,8 @@ class RecipeControllerTests {
         this.mvc.perform(MockMvcRequestBuilders
                         .post("http://localhost:8080/recipes")
                         .contentType("application/json")
-                        .content(String.valueOf(recipe)))
+                        .content(String.valueOf(recipe)).header(HttpHeaders.AUTHORIZATION,
+                        "Basic " + Base64Utils.encodeToString("Robin:password".getBytes())))
                 .andExpect(status().isBadRequest());
     }
 
@@ -64,7 +68,8 @@ class RecipeControllerTests {
 
         this.mvc.perform(MockMvcRequestBuilders
                         .get("http://localhost:8080/recipes")
-                        .contentType("application/json"))
+                        .contentType("application/json").header(HttpHeaders.AUTHORIZATION,
+                                "Basic " + Base64Utils.encodeToString("Robin:password".getBytes())))
                 .andExpect(status().isOk());
     }
 
@@ -72,7 +77,8 @@ class RecipeControllerTests {
     void GetRecipe1ShouldGive200() throws Exception {
         this.mvc.perform(MockMvcRequestBuilders
                         .get("http://localhost:8080/recipes/1")
-                        .contentType("application/json"))
+                        .contentType("application/json").header(HttpHeaders.AUTHORIZATION,
+                                "Basic " + Base64Utils.encodeToString("Robin:password".getBytes())))
                 .andExpect(status().isOk());
     }
 
@@ -80,7 +86,8 @@ class RecipeControllerTests {
     void DeleteRecipeShouldGive204() throws Exception {
         this.mvc.perform(MockMvcRequestBuilders
                         .delete("http://localhost:8080/recipes/1")
-                        .contentType("application/json"))
+                        .contentType("application/json").header(HttpHeaders.AUTHORIZATION,
+                                "Basic " + Base64Utils.encodeToString("Robin:password".getBytes())))
                 .andExpect(status().isNoContent());
     }
 
@@ -93,8 +100,30 @@ class RecipeControllerTests {
                                 "  \"isVegetarian\": 1,\n" +
                                 "  \"consumerAmount\": 5,\n" +
                                 "  \"cookingInstructions\": \"cooking intructions\"\n" +
-                                "}"))
+                                "}").header(HttpHeaders.AUTHORIZATION,
+                                "Basic " + Base64Utils.encodeToString("Robin:password".getBytes())))
                 .andExpect(status().isCreated());
     }
 
+    @Test
+    void UpdateRecipeShouldGive200() throws Exception {
+        this.mvc.perform(MockMvcRequestBuilders
+                        .put("http://localhost:8080/recipes/1")
+                        .contentType("application/json")
+                        .content("{\n" +
+                                "  \"isVegetarian\": 1,\n" +
+                                "  \"consumerAmount\": 5,\n" +
+                                "  \"cookingInstructions\": \"cooking intructions\"\n" +
+                                "}").header(HttpHeaders.AUTHORIZATION,
+                                "Basic " + Base64Utils.encodeToString("Robin:password".getBytes())))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void GetRecipe1WithoutAuthorizationShouldGive401() throws Exception {
+        this.mvc.perform(MockMvcRequestBuilders
+                        .get("http://localhost:8080/recipes/1")
+                        .contentType("application/json"))
+                .andExpect(status().isUnauthorized());
+    }
 }

@@ -87,13 +87,7 @@ public class RecipeController {
     })
     @PutMapping("/recipes/{id}")
     public ResponseEntity<Object> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable Long id) {
-        Recipe oldRecipe = service.getRecipe(id);
-        if (oldRecipe != null) {
-            return new ResponseEntity<>(service.updateRecipe(convertToEntity(updatedRecipe), id), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+        return new ResponseEntity<>(service.updateRecipe(convertToEntity(updatedRecipe), id), HttpStatus.OK);
     }
 
     /**
