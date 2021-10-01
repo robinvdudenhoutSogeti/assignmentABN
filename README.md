@@ -18,4 +18,5 @@ since unit tests were required.
 
 ModelMapper was chosen to make it easier to transform a DTO object to an entity object and vice versa.
 
-
+### Code coverage
+Because of the time I was not able to get a code coverage of 80% but I made it close with 75%.
